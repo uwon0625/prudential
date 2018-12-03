@@ -1,6 +1,5 @@
 import os
 import csv
-from dotenv import find_dotenv, load_dotenv
 import requests
 import logging
 import pandas as pd
