@@ -3,6 +3,7 @@ import xgboost as xgb
 import json
 from label_decoders import *
 from prepareData import *
+import time
 
 config = json.load(open('settings.json'))
 
@@ -22,7 +23,7 @@ param = {'max_depth' : 4,
 
 num_round=7000
 
-print('start training xgboost...')
+print(time.strftime("%H:%M:%S") + '> start training xgboost...')
 
 i = 0
 for l in ld:
@@ -60,4 +61,4 @@ for l in ld:
     test_ohd['xgb%s' % (i)] = bst.predict(dtest)
 
 test_ohd.to_csv(config['test_xgb'],index=0)
-print('finish training xgboost...')
+print(time.strftime("%H:%M:%S") + '> finish training xgboost...')

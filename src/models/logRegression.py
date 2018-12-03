@@ -5,12 +5,13 @@ import csv
 from sklearn import metrics
 from label_decoders import *
 from prepareData import *
+import time
 
 config = json.load(open('settings.json'))
 
 train_ohd,test_ohd,ind_list,ld,features = process_data(model_prefix='lr', feature_count=13)
 
-print('start training LogisticRegression...')
+print(time.strftime("%H:%M:%S") + '> start training LogisticRegression...')
 
 i = 0
 for l in ld:
@@ -40,4 +41,4 @@ for l in ld:
     test_ohd['lr%s' % (i)] = lr.predict_proba(test_ohd[features]).T[1]
 
 test_ohd.to_csv(config['test_lr'],index=0)
-print('finish training LogisticRegression...')
+print(time.strftime("%H:%M:%S") + '> finish training LogisticRegression...')

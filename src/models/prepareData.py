@@ -5,11 +5,11 @@ import requests
 import logging
 import pandas as pd
 import json
+import time
 from label_decoders import *
 
-
 def read_data():
-	print('load data ...')
+	print(time.strftime("%H:%M:%S") + '> load data ...')
 	config = json.load(open('settings.json'))
 	# set the path of the raw data
 	train_file_path = config['train']
@@ -22,7 +22,7 @@ def read_data():
 	return df
 
 def process_feature(df):
-	print('process feature ...')
+	print(time.strftime("%H:%M:%S") + '> process feature ...')
 	# catogorical features
 	df['Product_Info_2_char'] = df.Product_Info_2.str[0]
 	df['Product_Info_2_num'] = df.Product_Info_2.str[1]
@@ -48,7 +48,7 @@ def process_feature(df):
 
 
 def process_data(model_prefix, feature_count=13):
-	print('process data ...')
+	print(time.strftime("%H:%M:%S") + '> process data ...')
 	df = read_data()
 	df = process_feature(df)
 
