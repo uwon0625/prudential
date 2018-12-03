@@ -9,7 +9,7 @@ config = json.load(open('settings.json'))
 
 train_ohd,test_ohd,ind_list,ld,features = process_data(model_prefix='rf', feature_count=13)
 
-
+print('start training RandomForestClassifier...')
 i = 0
 for l in ld:
     i = i + 1    
@@ -38,3 +38,4 @@ for l in ld:
     test_ohd['rf%s' % (i)] = rf.predict_proba(test_ohd[features]).T[1]
 
 test_ohd.to_csv(config['test_rf'],index=0)
+print('finish training RandomForestClassifier...')

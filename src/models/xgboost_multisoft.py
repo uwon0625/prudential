@@ -20,6 +20,7 @@ param = {'max_depth' : 4,
 
 num_round=7000
 
+print('start training xgboost multisift-8...')
    
 for j in range(10):
     
@@ -50,3 +51,4 @@ for k in range(1,9):
     test_ohd['pr%s' % (k)] = bst.predict(dtest).T[k-1]
 
 test_ohd.to_csv(config['test_p1'],index=0)
+print('finish training xgboost multisift-8...')
