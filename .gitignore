@@ -22,6 +22,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+.pylint*
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -77,6 +78,9 @@ target/
 
 # exclude data from source control by default
 /data/raw/*
+/src/features
+/src/data
+/src/models/submission
 
 # Mac OS-specific storage files
 .DS_Store
