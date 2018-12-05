@@ -44,8 +44,6 @@ def process_feature(df):
 	df.fillna(-1, inplace=True)
 	return df
 
-
-
 def process_data(model_prefix, feature_count=13):
 	print(time.strftime("%H:%M:%S") + '> process data ...')
 	df = read_data()
@@ -64,7 +62,7 @@ def process_data(model_prefix, feature_count=13):
 	features_t = [x.replace('_', 'i') for x in features_t]
 	test_ohd.columns = features_t
 
-	#features.remove("Id")
+	#@eatures.remove("Id")
 	features.remove("Response")
 
 	#https://datascience.stackexchange.com/questions/9255/creating-new-columns-by-iterating-over-rows-in-pandas-dataframe
@@ -74,7 +72,7 @@ def process_data(model_prefix, feature_count=13):
 
 	ld = [labels_decoder1, labels_decoder2,labels_decoder3,labels_decoder4,labels_decoder5,labels_decoder6,labels_decoder7, labels_decoder8]
 	if (feature_count ==13):
-		ld.append([labels_decoder9, labels_decoder10,labels_decoder11,labels_decoder12,labels_decoder13])
+		ld.extend([labels_decoder9, labels_decoder10,labels_decoder11,labels_decoder12,labels_decoder13])
 
 	l = train_ohd.shape[0]
 	ind_list = [(list(range(0, l//10)), [x for x in range(0,l) if x not in list(range(0,l//10))]), 
