@@ -16,7 +16,7 @@ print(time.strftime("%H:%M:%S") + '> start training LogisticRegression...')
 i = 0
 for l in ld:
     i = i + 1    
-    
+    print(time.strftime("%H:%M:%S") + ' train data ->' + str(i))
     for j in range(10):
         
         X_1, X_2 = ind_list[j][1], ind_list[j][0]
@@ -33,11 +33,11 @@ y = train_ohd['Response']
 i = 0
 for l in ld:
     i = i + 1    
-
+    print(time.strftime("%H:%M:%S") + ' test data ->' + str(i))
 ###1
     lr = LogisticRegression(random_state=1)
     lr.fit(train_ohd[features],l(y)), i
     test_ohd['lr%s' % (i)] = lr.predict_proba(test_ohd[features]).T[1]
 
 test_ohd.to_csv(config['test_lr'],index=0)
-print(time.strftime("%H:%M:%S") + '> finish training LogisticRegression...')
+print(time.strftime("%H:%M:%S") + '> finish training LogisticRegression.')

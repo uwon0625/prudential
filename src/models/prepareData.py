@@ -14,10 +14,10 @@ def read_data():
 	train_file_path = config['train']
 	test_file_path = config['test']
 	# read the data with all default parameters
-	train_df = pd.read_csv(train_file_path, index_col='Id')
-	test_df = pd.read_csv(test_file_path, index_col='Id')
+	train_df = pd.read_csv(train_file_path)
+	test_df = pd.read_csv(test_file_path)
 	test_df['Response'] = 0
-	df = pd.concat((train_df, test_df), axis=0)
+	df = train_df.append(test_df)
 	return df
 
 def process_feature(df):
@@ -54,15 +54,15 @@ def process_data(model_prefix, feature_count=13):
 	test_ohd = df[df['Response'] < 1].copy()
 
 	features = train_ohd.columns.tolist()
-	#features = [x.replace('=','_') for x in features]
+	features = [x.replace('=','_') for x in features]
 	features = [x.replace('_', 'i') for x in features]
 	train_ohd.columns = features
 	features_t = test_ohd.columns.tolist()
-	#features_t = [x.replace('=','i') for x in features_t]
+	features_t = [x.replace('=','i') for x in features_t]
 	features_t = [x.replace('_', 'i') for x in features_t]
 	test_ohd.columns = features_t
 
-	#@eatures.remove("Id")
+	features.remove("Id")
 	features.remove("Response")
 
 	#https://datascience.stackexchange.com/questions/9255/creating-new-columns-by-iterating-over-rows-in-pandas-dataframe

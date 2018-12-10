@@ -9,7 +9,6 @@ config = json.load(open('settings.json'))
 
 train_ohd,test_ohd,ind_list,ld,features = process_data(model_prefix='xgb', feature_count=13)
 
-
 param = {'max_depth' : 4, 
          'eta' : 0.01, 
          'silent' : 1, 
@@ -28,7 +27,7 @@ print(time.strftime("%H:%M:%S") + '> start training xgboost...')
 i = 0
 for l in ld:
     i = i + 1    
-    
+    print(time.strftime("%H:%M:%S") + ' train data ->' + str(i))
     for j in range(10):
         
         X_1, X_2 = ind_list[j][1], ind_list[j][0]
@@ -50,7 +49,7 @@ y = train_ohd['Response']
 i = 0
 for l in ld:
     i = i + 1    
-
+    print(time.strftime("%H:%M:%S") + ' test data ->' + str(i))
 ###1
     dtrain=xgb.DMatrix(train_ohd[features],label=l(y),missing=float('nan'))
     dtest=xgb.DMatrix(test_ohd[features],missing=float('nan'))
@@ -61,4 +60,4 @@ for l in ld:
     test_ohd['xgb%s' % (i)] = bst.predict(dtest)
 
 test_ohd.to_csv(config['test_xgb'],index=0)
-print(time.strftime("%H:%M:%S") + '> finish training xgboost...')
+print(time.strftime("%H:%M:%S") + '> finish training xgboost.')
