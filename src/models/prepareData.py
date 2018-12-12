@@ -75,14 +75,15 @@ def process_data(model_prefix, feature_count=13):
 		ld.extend([labels_decoder9, labels_decoder10,labels_decoder11,labels_decoder12,labels_decoder13])
 
 	l = train_ohd.shape[0]
-	ind_list = [(list(range(0, l//10)), [x for x in range(0,l) if x not in list(range(0,l//10))]), 
-				(list(range(l//10, l//10*2)), [x for x in range(0,l) if x not in list(range(l//10,l//10*2))]),
-				(list(range(l//10*2, l//10*3)), [x for x in range(0,l) if x not in list(range(l//10*2,l//10*3))]),
-				(list(range(l//10*3, l//10*4)), [x for x in range(0,l) if x not in list(range(l//10*3,l//10*4))]),
-				(list(range(l//10*4, l//10*5)), [x for x in range(0,l) if x not in list(range(l//10*4,l//10*5))]),
-				(list(range(l//10*5, l//10*6)), [x for x in range(0,l) if x not in list(range(l//10*5,l//10*6))]),
-				(list(range(l//10*6, l//10*7)), [x for x in range(0,l) if x not in list(range(l//10*6,l//10*7))]),
-				(list(range(l//10*7, l//10*8)), [x for x in range(0,l) if x not in list(range(l//10*7,l//10*8))]),
-				(list(range(l//10*8, l//10*9)), [x for x in range(0,l) if x not in list(range(l//10*8,l//10*9))]),
-				(list(range(l//10*9, l)), [x for x in range(0,l) if x not in list(range(l//10*9,l))])]
+	ind_list = [(range(0,l//10), list(filter(lambda x: x not in range(0,l//10), range(0,l)))), 
+            (range(l//10,l//10*2), list(filter(lambda x: x not in range(l//10,l//10*2), range(0,l)))),
+            (range(l//10*2,l//10*3), list(filter(lambda x: x not in range(l//10*2,l//10*3), range(0,l)))),
+            (range(l//10*3,l//10*4), list(filter(lambda x: x not in range(l//10*3,l//10*4), range(0,l)))),
+            (range(l//10*4,l//10*5), list(filter(lambda x: x not in range(l//10*4,l//10*5), range(0,l)))),
+            (range(l//10*5,l//10*6), list(filter(lambda x: x not in range(l//10*5,l//10*6), range(0,l)))),
+            (range(l//10*6,l//10*7), list(filter(lambda x: x not in range(l//10*6,l//10*7), range(0,l)))),
+            (range(l//10*7,l//10*8), list(filter(lambda x: x not in range(l//10*7,l//10*8), range(0,l)))),
+            (range(l//10*8,l//10*9), list(filter(lambda x: x not in range(l//10*8,l//10*9), range(0,l)))),
+            (range(l//10*9,l), list(filter(lambda x: x not in range(l//10*9,l), range(0,l))))]
+
 	return train_ohd, test_ohd,ind_list,ld,features
