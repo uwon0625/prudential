@@ -24,8 +24,8 @@ for l in ld:
         rf.fit(train_ohd[features].iloc[X_1],l(y_1))
         train_ohd['rf%s' % (i)].iloc[X_2] = rf.predict_proba(train_ohd[features].iloc[X_2]).T[1]
 
-
-train_ohd.to_csv(config['train_rf'],index=0)
+train_ohd.sort_index(axis=1, inplace=True)
+train_ohd.to_csv(config['train_rf'], index=False)
 
 y = train_ohd['Response']
 
@@ -38,5 +38,6 @@ for l in ld:
     rf.fit(train_ohd[features],l(y))
     test_ohd['rf%s' % (i)] = rf.predict_proba(test_ohd[features]).T[1]
 
-test_ohd.to_csv(config['test_rf'],index=0)
+test_ohd.sort_index(axis=1, inplace=True)
+test_ohd.to_csv(config['test_rf'],index=False)
 print(time.strftime("%H:%M:%S") + '> finish training RandomForestClassifier.')

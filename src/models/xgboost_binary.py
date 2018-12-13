@@ -41,8 +41,8 @@ for l in ld:
         bst = xgb.train(param, dtrain, num_round)
         train_ohd['xgb%i' % (i)].iloc[X_2] = bst.predict(dval)
 
-
-train_ohd.to_csv(config['train_xgb'],index=0)
+train_ohd.sort_index(axis=1, inplace=True)
+train_ohd.to_csv(config['train_xgb'],index=False)
 
 y = train_ohd['Response']
 
@@ -59,5 +59,6 @@ for l in ld:
     bst = xgb.train(param, dtrain, num_round)
     test_ohd['xgb%s' % (i)] = bst.predict(dtest)
 
-test_ohd.to_csv(config['test_xgb'],index=0)
+test_ohd.sort_index(axis=1, inplace=True)
+test_ohd.to_csv(config['test_xgb'],index=False)
 print(time.strftime("%H:%M:%S") + '> finish training xgboost.')

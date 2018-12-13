@@ -26,7 +26,8 @@ for l in ld:
         lr.fit(train_ohd[features].iloc[X_1],l(y_1))
         train_ohd['lr%s' % (i)].iloc[X_2] = lr.predict_proba(train_ohd[features].iloc[X_2]).T[1]
 
-train_ohd.to_csv(config['train_lr'],index=0)
+train_ohd.sort_index(axis=1, inplace=True)
+train_ohd.to_csv(config['train_lr'], index=False)
 
 y = train_ohd['Response']
 
@@ -39,5 +40,6 @@ for l in ld:
     lr.fit(train_ohd[features],l(y)), i
     test_ohd['lr%s' % (i)] = lr.predict_proba(test_ohd[features]).T[1]
 
-test_ohd.to_csv(config['test_lr'],index=0)
+test_ohd.sort_index(axis=1, inplace=True)
+test_ohd.to_csv(config['test_lr'], index=False)
 print(time.strftime("%H:%M:%S") + '> finish training LogisticRegression.')

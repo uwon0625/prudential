@@ -82,6 +82,7 @@ target/
 /src/data
 /src/models/submission
 /src/features3
+/src/features2
 
 # Mac OS-specific storage files
 .DS_Store

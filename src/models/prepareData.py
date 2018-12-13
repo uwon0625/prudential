@@ -75,6 +75,8 @@ def process_data(model_prefix, feature_count=13):
 		ld.extend([labels_decoder9, labels_decoder10,labels_decoder11,labels_decoder12,labels_decoder13])
 
 	l = train_ohd.shape[0]
+
+	##https://stackoverflow.com/questions/12319025/filters-in-python3
 	ind_list = [(range(0,l//10), list(filter(lambda x: x not in range(0,l//10), range(0,l)))), 
             (range(l//10,l//10*2), list(filter(lambda x: x not in range(l//10,l//10*2), range(0,l)))),
             (range(l//10*2,l//10*3), list(filter(lambda x: x not in range(l//10*2,l//10*3), range(0,l)))),

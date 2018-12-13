@@ -37,7 +37,8 @@ for j in range(10):
     for k in range(1,9):
         train_ohd['pr%s' % (k)].iloc[X_2] = bst.predict(dval).T[k-1]
 
-train_ohd.to_csv(config['train_p1'],index=0)
+train_ohd.sort_index(axis=1, inplace=True)
+train_ohd.to_csv(config['train_p1'],index=False)
 
 ###
 y = train_ohd['Response'] - 1
@@ -51,5 +52,6 @@ for k in range(1,9):
 	print(time.strftime("%H:%M:%S") + ' test data ->' + str(i))
     test_ohd['pr%s' % (k)] = bst.predict(dtest).T[k-1]
 
-test_ohd.to_csv(config['test_p1'],index=0)
+test_ohd.sort_index(axis=1, inplace=True)
+test_ohd.to_csv(config['test_p1'],index=False)
 print(time.strftime("%H:%M:%S") + '> finish training xgboost multisift-8.')
