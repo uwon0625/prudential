@@ -8,6 +8,7 @@ config = json.load(open('settings.json'))
 
 train_ohd,test_ohd,ind_list,ld,features = process_data(model_prefix='pr', feature_count=8)
 
+#https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/
 param = {'max_depth' : 4, 
          'eta' : 0.01, 
          'silent' : 1, 
@@ -49,7 +50,7 @@ dtest=xgb.DMatrix(test_ohd[features],missing=float('nan'))
 
 bst = xgb.train(param, dtrain, num_round)
 for k in range(1,9):
-	print(time.strftime("%H:%M:%S") + ' test data ->' + str(i))
+    print(time.strftime("%H:%M:%S") + ' test data ->' + str(k))
     test_ohd['pr%s' % (k)] = bst.predict(dtest).T[k-1]
 
 test_ohd.sort_index(axis=1, inplace=True)

@@ -9,6 +9,7 @@ config = json.load(open('settings.json'))
 
 train_ohd,test_ohd,ind_list,ld,features = process_data(model_prefix='xgb', feature_count=13)
 
+#https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/
 param = {'max_depth' : 4, 
          'eta' : 0.01, 
          'silent' : 1, 

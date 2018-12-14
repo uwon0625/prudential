@@ -83,6 +83,9 @@ target/
 /src/models/submission
 /src/features3
 /src/features2
+src/code2
+src/colab3
+*.7z
 
 # Mac OS-specific storage files
 .DS_Store
