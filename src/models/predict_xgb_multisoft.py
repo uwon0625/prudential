@@ -34,17 +34,24 @@ def modelfit0(alg,dtrain,dtest,predictors,useTrainCV=True,cv_folds=5,early_stopp
                           nfold = cv_folds,metrics='mlogloss',early_stopping_rounds=early_stopping_rounds)
         alg.set_params(n_estimators=cvresult.shape[0])
     alg.fit(dtrain[predictors],dtrain['Response'],eval_metric='mlogloss')#'auc'
-    dtrain_predictions = alg.predict(dtest[predictors])
-    #dtrain_predprob = alg.predict_proba(dtrain[predictors])[:,1]
-    result = pd.DataFrame({"Id": dtrain['Id'].values, "Response": dtrain_predictions})
-    result.to_csv(config['submission'], index=False)
+    print(time.strftime("%H:%M:%S") + 'finish fit train.')
+
+    dtrain_predictions = alg.predict(dtrain[predictors])
+    print(time.strftime("%H:%M:%S") + 'finish predict train.')
     #dtrain_predictprob = alg.predict_proba(dtrain[predictors])[:,1]
     print ('\nModel Report: n_estimators--' + str(alg.n_estimators))
     print ('Accuracy:%.4g'%metrics.accuracy_score(dtrain['Response'],dtrain_predictions))
 
+    dtest_predictions = alg.predict(dtest[predictors])
+    dtest_predictions['Response']+=1 #restore to risks 1-8
+    print(time.strftime("%H:%M:%S") + 'finish predict test.')
+
+    result = pd.DataFrame({"Id": dtest['Id'].values, "Response": dtest_predictions})
+    result.to_csv(config['submission'], index=False)
+
 train_part, test_part = train_test_split(train, test_size=0.2)
 X1=train_part
-X1['Response'] -=1 
+X1['Response'] -=1 #reduce to fit [0,classes)
 
 print(time.strftime("%H:%M:%S") + '> fit model and predict...')
 xgbc = xgb.XGBClassifier(objective='multi:softprob', num_class=num_classes, 
@@ -53,6 +60,6 @@ xgbc = xgb.XGBClassifier(objective='multi:softprob', num_class=num_classes,
                          max_depth=4,min_child_weight=2,gamma=0,reg_alpha=1,
                          subsample=0.9, colsample_bytree=0.5, 
                          early_stopping_rounds=100, seed=0)
-modelfit0(xgbc,train_part,test,predictors)
+#modelfit0(xgbc,train_part,test,predictors)
 
 print(time.strftime("%H:%M:%S") + '> fit model and predict.')
