@@ -1,5 +1,7 @@
 {"train" : "../../data/raw/train.csv",
 "test" : "../../data/raw/test.csv",
+"train_modified" : "../../data/processed/train.csv",
+"test_modified" : "../../data/processed/test.csv",
 "train_xgb" : "../features/train_xgb.csv",
 "test_xgb" : "../features/test_xgb.csv",
 "train_rf" : "../features/train_rf.csv",

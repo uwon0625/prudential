@@ -9,7 +9,7 @@ from prepareData import *
 
 config = json.load(open('settings.json'))
 
-train_ohd,test_ohd,ind_list,ld,features = process_data(model_prefix='lr', feature_count=13)
+train_ohd,test_ohd,ind_list,ld,features = process_data(model_prefix='lr', load_staged_data=False, feature_count=13)
 
 print(time.strftime("%H:%M:%S") + '> start training LogisticRegression...')
 

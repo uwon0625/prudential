@@ -78,6 +78,7 @@ target/
 
 # exclude data from source control by default
 /data/raw/*
+/data/processed/*
 /src/features
 /src/data
 /src/models/submission
@@ -85,6 +86,9 @@ target/
 /src/features2
 src/code2
 src/colab3
+src/models/.spyder-py3
+src/models/.matplotlib
+src/models/.vscode
 *.7z
 
 # Mac OS-specific storage files

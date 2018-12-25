@@ -6,6 +6,32 @@ import pandas as pd
 import json
 import time
 from label_decoders import *
+from dotenv import find_dotenv,load_dotenv
+
+config = json.load(open('settings.json'))
+
+def init_env():
+    # find .env automatically by walking up directories until it's found
+    dotenv_path = find_dotenv()
+    # load up the entries as environment variables
+    load_dotenv(dotenv_path)
+    # payload for login to kaggle
+    payload = {
+        '__RequestVerificationToken': '',
+        'action': 'login',
+        'username': os.environ.get("KAGGLE_USERNAME"),
+        'password': os.environ.get("KAGGLE_PASSWORD"),
+        'rememberme': 'false'
+    }
+    return payload
+
+#process changed: need to use Kaggle API to download datasets
+def extract_data(url, file_path, payload):
+    with requests.Session() as c:
+        c.post('https://www.kaggle.com/account/login', data=payload)
+        with open(file_path, 'w') as handle:
+            response = c.get(url, stream=True)
+            handle.write(response.text)
 
 def read_data():
 	print(time.strftime("%H:%M:%S") + '> load data ...')
@@ -44,8 +70,7 @@ def process_feature(df):
 	df.fillna(-1, inplace=True)
 	return df
 
-def process_data(model_prefix, feature_count=13):
-	print(time.strftime("%H:%M:%S") + '> process data ...')
+def save_staged_data():
 	df = read_data()
 	df = process_feature(df)
 
@@ -61,6 +86,22 @@ def process_data(model_prefix, feature_count=13):
 	features_t = [x.replace('=','i') for x in features_t]
 	features_t = [x.replace('_', 'i') for x in features_t]
 	test_ohd.columns = features_t
+
+	train_ohd.sort_index(axis=1, inplace=True)
+	train_ohd.to_csv(config['train_modified'],index=False)
+	test_ohd.sort_index(axis=1, inplace=True)
+	test_ohd.to_csv(config['test_modified'],index=False)
+
+def process_data(model_prefix, feature_count=13, load_staged_data = True):
+	print(time.strftime("%H:%M:%S") + '> process data ...')
+
+	if (load_staged_data == False):
+		save_staged_data()
+
+	train_ohd = pd.read_csv(config['train_modified'])
+	features = train_ohd.columns.tolist()
+	test_ohd = pd.read_csv(config['test_modified'])
+	features_t = test_ohd.columns.tolist()
 
 	features.remove("Id")
 	features.remove("Response")
