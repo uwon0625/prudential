@@ -1,5 +1,6 @@
 {"train" : "../data/raw/train.csv",
 "test" : "../data/raw/test.csv",
 "train_modified" : "../data/processed/train.csv",
-"test_modified" : "../data/processed/test.csv"
+"test_modified" : "../data/processed/test.csv",
+"submission":"../src/submissions/submission.csv"
 }

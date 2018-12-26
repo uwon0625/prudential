@@ -49,9 +49,12 @@ def modelfit0(alg,dtrain,dtest,predictors,useTrainCV=True,cv_folds=5,early_stopp
     result = pd.DataFrame({"Id": dtest['Id'].values, "Response": dtest_predictions})
     result.to_csv(config['submission'], index=False)
 
+def 
 train_part, test_part = train_test_split(train, test_size=0.2)
 X1=train_part
 X1['Response'] -=1 #reduce to fit [0,classes)
+y1=test_part
+y1['Response'] -= 1
 
 print(time.strftime("%H:%M:%S") + '> fit model and predict...')
 xgbc = xgb.XGBClassifier(objective='multi:softprob', num_class=num_classes, 
@@ -62,4 +65,36 @@ xgbc = xgb.XGBClassifier(objective='multi:softprob', num_class=num_classes,
                          early_stopping_rounds=100, seed=0)
 #modelfit0(xgbc,train_part,test,predictors)
 
-print(time.strftime("%H:%M:%S") + '> fit model and predict.')
+
+param = {'max_depth' : 4, 
+         'eta' : 0.01, 
+         'silent' : 1, 
+         'min_child_weight' : 10, 
+         'subsample' : 0.5,
+         'early_stopping_rounds' : 100,
+         'objective' : 'multi:softprob',
+         'num_class' : 8,
+         'colsample_bytree' : 0.3,
+         'seed' : 0}
+num_rounds=7000
+dtrain=xgb.DMatrix(X1[predictors],X1[target],missing=float('nan'))
+print(time.strftime("%H:%M:%S") + '> train model...')
+bst = xgb.train(param, dtrain, num_rounds)
+
+print(time.strftime("%H:%M:%S") + '> train model predict...')
+#dtest=xgb.DMatrix(y1[predictors],y1[target],missing=float('nan'))
+prob = bst.predict(y1[predictors])
+y=np.argmax(prob, axis=1)
+print ('Accuracy:%.4g'%metrics.accuracy_score(y1[target],y))
+
+print(time.strftime("%H:%M:%S") + '> test model predict...')
+y0 = test
+y0[target] -= 1
+dtest=xgb.DMatrix(y0[predictors],y0[target],missing=float('nan'))
+%time prob2 = bst.predict(dtest)
+y=np.argmax(prob2, axis=1)
+y += 1
+result = pd.DataFrame({"Id": y0['Id'].values, "Response": y})
+result.to_csv(config['submission'].replace('.csv','_xg2.csv'), index=False)
+
+print(time.strftime("%H:%M:%S") + '= done xgboost multisoft.')
