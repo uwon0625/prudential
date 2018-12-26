@@ -49,7 +49,6 @@ def modelfit0(alg,dtrain,dtest,predictors,useTrainCV=True,cv_folds=5,early_stopp
     result = pd.DataFrame({"Id": dtest['Id'].values, "Response": dtest_predictions})
     result.to_csv(config['submission'], index=False)
 
-def 
 train_part, test_part = train_test_split(train, test_size=0.2)
 X1=train_part
 X1['Response'] -=1 #reduce to fit [0,classes)
